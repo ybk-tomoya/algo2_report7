@@ -8,14 +8,13 @@
 using namespace std;
 using namespace chrono;
 
-// 計測用の構造体
 struct SortMetrics {
     long long comparisons = 0;
     long long copies = 0;
     long long duration = 0;
 };
 
-// バブルソート
+//bubble sort
 void bubbleSort(vector<int>& arr, SortMetrics& metrics) {
     int n = arr.size();
     for (int i = 0; i < n - 1; ++i) {
@@ -29,7 +28,7 @@ void bubbleSort(vector<int>& arr, SortMetrics& metrics) {
     }
 }
 
-// 挿入ソート
+//insertion sort
 void insertionSort(vector<int>& arr, SortMetrics& metrics) {
     int n = arr.size();
     for (int i = 1; i < n; ++i) {
@@ -47,7 +46,7 @@ void insertionSort(vector<int>& arr, SortMetrics& metrics) {
     }
 }
 
-// クイックソート
+//quick sort
 void quickSortHelper(vector<int>& arr, int low, int high, SortMetrics& metrics) {
     if (low < high) {
         int pivot = arr[high];
@@ -72,7 +71,7 @@ void quickSort(vector<int>& arr, SortMetrics& metrics) {
     quickSortHelper(arr, 0, arr.size() - 1, metrics);
 }
 
-// マージソート
+//merge sort
 void merge(vector<int>& arr, int l, int m, int r, SortMetrics& metrics) {
     int n1 = m - l + 1;
     int n2 = r - m;
@@ -125,7 +124,7 @@ void mergeSort(vector<int>& arr, SortMetrics& metrics) {
     mergeSortHelper(arr, 0, arr.size() - 1, metrics);
 }
 
-// ヒープソート
+//heap sort
 void heapify(vector<int>& arr, int n, int i, SortMetrics& metrics) {
     int largest = i;
     int left = 2 * i + 1;
@@ -157,7 +156,7 @@ void heapSort(vector<int>& arr, SortMetrics& metrics) {
     }
 }
 
-// ラディックスソート
+//radix sort
 int getMax(const vector<int>& arr, SortMetrics& metrics) {
     int max = arr[0];
     for (int i = 1; i < arr.size(); ++i) {
@@ -197,7 +196,7 @@ void radixSort(vector<int>& arr, SortMetrics& metrics) {
     }
 }
 
-// CSVファイルからデータを読み込む
+//load data from csv
 vector<int> readCSV(const string& filename) {
     vector<int> data;
     ifstream file(filename);
@@ -205,13 +204,13 @@ vector<int> readCSV(const string& filename) {
     int lineCount = 0;
     while (getline(file, line)) {
         lineCount++;
-        if (lineCount < 6) continue; // 6行目以降を読む
+        if (lineCount < 6) continue;
         stringstream ss(line);
         string value;
         int colCount = 0;
         while (getline(ss, value, ',')) {
             colCount++;
-            if (colCount == 2) { // 2列目のデータを取得
+            if (colCount == 2) {
                 try {
                     data.push_back(stoi(value));
                 } catch (const invalid_argument& e) {
@@ -225,7 +224,6 @@ vector<int> readCSV(const string& filename) {
     return data;
 }
 
-// ソート関数を実行し、計測する
 void executeSort(void(*sortFunc)(vector<int>&, SortMetrics&), vector<int> arr, const string& sortName) {
     SortMetrics metrics;
     auto start = high_resolution_clock::now();
